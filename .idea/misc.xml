@@ -3,7 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/vabra/AndroidStudioProjects/WeatherApp/app/src/main/res/layout/activity_main.xml" value="0.11614583333333334" />
+        <entry key="..\:/Users/vabra/AndroidStudioProjects/WeatherApp/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/vabra/AndroidStudioProjects/WeatherApp/app/src/main/res/layout/location_list_item.xml" value="0.6" />
       </map>
     </option>
   </component>
