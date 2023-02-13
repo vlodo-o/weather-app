@@ -3,12 +3,12 @@ package com.practicum.weatherapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,10 +33,16 @@ class MainActivity : AppCompatActivity() {
         showWeather(it)
     }
 
+    private lateinit var locationsFrameLayout: FrameLayout
     private lateinit var searchButton: Button
     private lateinit var queryInput: EditText
     private lateinit var placeholderMessage: TextView
     private lateinit var locationsList: RecyclerView
+
+    private lateinit var weatherLinearLayout: LinearLayout
+    private lateinit var placeNameTextView: TextView
+    private lateinit var weatherImageView: ImageView
+    private lateinit var temperatureTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         searchButton = findViewById(R.id.searchButton)
         queryInput = findViewById(R.id.queryInput)
         locationsList = findViewById(R.id.locations)
+        locationsFrameLayout = findViewById(R.id.locationsFrameLayout)
 
         adapter.locations = locations
 
@@ -54,6 +61,9 @@ class MainActivity : AppCompatActivity() {
 
         searchButton.setOnClickListener {
             if (queryInput.text.isNotEmpty()) {
+                if (locationsFrameLayout.visibility == View.GONE) {
+                    locationsFrameLayout.visibility = View.VISIBLE
+                }
                 if (token.isEmpty()) {
                     authenticate()
                 } else {
@@ -120,8 +130,26 @@ class MainActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<ForecastResponse>,
                                         response: Response<ForecastResponse>) {
                     if (response.body()?.current != null) {
-                        val message = "${location.name} t: ${response.body()?.current?.temperature}\n(Ощущается как ${response.body()?.current?.feelsLikeTemp})"
-                        Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+                        //val message = "${location.name} t: ${response.body()?.current?.temperature}\n(Ощущается как ${response.body()?.current?.feelsLikeTemp})"
+                        //Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+
+                        locationsFrameLayout = findViewById(R.id.locationsFrameLayout)
+                        weatherLinearLayout = findViewById(R.id.weatherLinearLayout)
+                        placeNameTextView = findViewById(R.id.placeNameTextView)
+                        weatherImageView = findViewById(R.id.weatherImageView)
+                        temperatureTextView = findViewById(R.id.temperatureTextView)
+
+                        locationsFrameLayout.visibility = View.GONE
+                        placeNameTextView.text = "${location.country}, ${location.name}"
+                        Glide.with(weatherLinearLayout)
+                            .load("https://developer.foreca.com/static/images/symbols/${response.body()?.current?.symbol}.png")
+                            .placeholder(R.drawable.rounded_shape)
+                            .centerCrop()
+                            .into(weatherImageView)
+
+                        temperatureTextView.text = "t: ${response.body()?.current?.temperature}\n" +
+                                "Ощущается как ${response.body()?.current?.feelsLikeTemp}"
+
                     }
                 }
 

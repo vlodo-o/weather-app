@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:background="?attr/colorSecondary">
 
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_margin="8dp">
+        android:layout_margin="@dimen/dimen_8dp">
 
-        <EditText android:id="@+id/queryInput"
+        <EditText
+            android:id="@+id/queryInput"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:layout_marginRight="16dp"
+            android:layout_height="36dp"
             android:layout_gravity="center_vertical"
-            android:textColor="@color/black"/>
+            android:layout_marginEnd="@dimen/dimen_8dp"
+            android:layout_weight="2"
+            android:background="@drawable/search_shape"
+            android:hint="@string/search_place"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingHorizontal="@dimen/dimen_8dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/text_gray" />
 
         <Button android:id="@+id/searchButton"
             android:layout_width="0dp"
@@ -26,20 +34,61 @@
             android:text="@string/search"/>
     </LinearLayout>
 
-    <FrameLayout android:layout_width="match_parent"
+    <FrameLayout
+        android:id="@+id/locationsFrameLayout"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView android:id="@+id/locations"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            tools:listitem="@layout/location_list_item"/>
 
-        <TextView android:id="@+id/placeholderMessage"
+        <TextView
+            android:id="@+id/placeholderMessage"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textAlignment="center"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"/>
+            android:textColor="?attr/colorOnSecondary"
+            android:textSize="@dimen/big_text_size"
+            android:textStyle="bold" />
     </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/weatherLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/placeNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="@dimen/dimen_16dp"
+            android:textAlignment="center"
+            android:textColor="?attr/colorOnSecondary"
+            android:textSize="@dimen/big_text_size"
+            tools:text="Название локации" />
+
+        <ImageView
+            android:id="@+id/weatherImageView"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/weather_image"/>
+
+        <TextView
+            android:id="@+id/temperatureTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            android:textAlignment="center"
+            android:textColor="?attr/colorOnSecondary"
+            android:textSize="@dimen/text_size"
+            tools:text="Температура" />
+
+    </LinearLayout>
 </LinearLayout>

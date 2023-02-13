@@ -3,4 +3,6 @@
     <string name="search">Найти</string>
     <string name="something_went_wrong">Что-то пошло не так</string>
     <string name="nothing_found">Ничего не найдено</string>
+    <string name="search_place">Поиск места</string>
+    <string name="weather_image">Weather image</string>
 </resources>

@@ -28,6 +28,7 @@ data class ForecastLocation(val id: Int,
 class LocationsResponse(val locations: ArrayList<ForecastLocation>)
 
 data class CurrentWeather(val temperature: Float,
-                          val feelsLikeTemp: Float)
+                          val feelsLikeTemp: Float,
+                          val symbol: String)
 
 class ForecastResponse(val current: CurrentWeather)
