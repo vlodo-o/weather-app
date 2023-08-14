@@ -1,9 +1,11 @@
-package com.practicum.weatherapp
+package com.practicum.weatherapp.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.practicum.weatherapp.R
+import com.practicum.weatherapp.data.ForecastLocation
 
 class LocationsAdapter(val clickListener: LocationClickListener) : RecyclerView.Adapter<LocationsAdapter.LocationViewHolder>() {
 
