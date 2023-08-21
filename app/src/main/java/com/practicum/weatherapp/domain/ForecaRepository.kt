@@ -58,22 +58,24 @@ class ForecaRepository {
             )
     }
 
-    fun getWeather(location: ForecastLocation, onSuccess: (symbol: String, temperature: String, feelsLikeTemp: String) -> Unit, onError: (t: Throwable) -> Unit) {
+    fun getWeather(location: ForecastLocation, onSuccess: (symbol: String, temperature: String, feelsLikeTemp: String) -> Unit, onError: () -> Unit) {
         forecaService.getForecast("Bearer $token", location.id)
-            .enqueue(object : Callback<ForecastResponse> {
-                override fun onResponse(call: Call<ForecastResponse>,
-                                        response: Response<ForecastResponse>) {
-                    if (response.body()?.current != null) {
-                        onSuccess.invoke(response.body()?.current?.symbol.toString(),
-                            response.body()?.current?.temperature.toString(),
-                            response.body()?.current?.feelsLikeTemp.toString())
-                    }
+            .retry { count, throwable ->
+                count < 3 && throwable is HttpException && throwable.code() == 401
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { forecastResponse ->
+                    onSuccess.invoke(forecastResponse.current.symbol,
+                        forecastResponse.current.temperature.toString(),
+                        forecastResponse.current.feelsLikeTemp.toString())
+                },
+                { error ->
+                    Log.e("RxJava", "Got error with auth or locations", error)
+                    onError.invoke()
                 }
-
-                override fun onFailure(call: Call<ForecastResponse>, t: Throwable) {
-                    onError.invoke(t)
-                }
-            })
+            )
     }
 
 }

@@ -1,7 +1,6 @@
 package com.practicum.weatherapp.data
 
 import io.reactivex.Single
-import retrofit2.Call
 import retrofit2.http.*
 
 interface ForecaApi {
@@ -21,6 +20,6 @@ interface ForecaApi {
     fun getForecast(
         @Header("Authorization") token: String,
         @Path("location") locationId: Int
-    ): Call<ForecastResponse>
+    ): Single<ForecastResponse>
 
 }

@@ -44,18 +44,18 @@ class MainActivity : AppCompatActivity() {
 
         searchButton.setOnClickListener {
             if (queryInput.text.isNotEmpty()) {
-                if (locationsFrameLayout.visibility == View.GONE) {
-                    locationsFrameLayout.visibility = View.VISIBLE
-                }
                 forecaRepository.authenticate(
                     queryInput.text.toString(),
                     onSuccess = {
+                        placeholderMessage.visibility = View.GONE
+                        weatherLinearLayout.visibility = View.GONE
+                        locationsFrameLayout.visibility = View.VISIBLE
                         locations.clear()
                         locations.addAll(it)
                         adapter.notifyDataSetChanged()
                     },
                     onError = {
-                        showMessage(getString(R.string.something_went_wrong), "")
+                        showMessage(getString(R.string.something_went_wrong), getString(R.string.something_went_wrong))
                     })
             }
         }
@@ -76,37 +76,32 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showWeather(location: ForecastLocation) {
-
         forecaRepository.getWeather(location,
         onSuccess = { symbol, temperature, feelsLikeTemp ->
             locationsFrameLayout.visibility = View.GONE
+            placeholderMessage.visibility = View.GONE
+            weatherLinearLayout.visibility = View.VISIBLE
             placeNameTextView.text = "${location.country}, ${location.name}"
             Glide.with(weatherLinearLayout)
                 .load("https://developer.foreca.com/static/images/symbols/${symbol}.png")
                 .placeholder(R.drawable.rounded_shape)
                 .centerCrop()
                 .into(weatherImageView)
-
             temperatureTextView.text = "t: ${temperature}\n" +
                     "Ощущается как ${feelsLikeTemp}"
         },
         onError = {
-            Toast.makeText(applicationContext, it.message, Toast.LENGTH_LONG).show()
+            showMessage(getString(R.string.something_went_wrong), getString(R.string.something_went_wrong))
         })
     }
 
     private fun showMessage(text: String, additionalMessage: String) {
-        if (text.isNotEmpty()) {
-            placeholderMessage.visibility = View.VISIBLE
-            locations.clear()
-            adapter.notifyDataSetChanged()
-            placeholderMessage.text = text
-            if (additionalMessage.isNotEmpty()) {
-                Toast.makeText(applicationContext, additionalMessage, Toast.LENGTH_LONG)
-                    .show()
-            }
-        } else {
-            placeholderMessage.visibility = View.GONE
-        }
+        placeholderMessage.visibility = View.VISIBLE
+        locationsFrameLayout.visibility = View.GONE
+        weatherLinearLayout.visibility = View.GONE
+        locations.clear()
+        adapter.notifyDataSetChanged()
+        placeholderMessage.text = text
+        Toast.makeText(applicationContext, additionalMessage, Toast.LENGTH_LONG).show()
     }
 }

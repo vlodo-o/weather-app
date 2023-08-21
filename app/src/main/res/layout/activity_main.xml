@@ -43,17 +43,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/location_list_item"/>
-
-        <TextView
-            android:id="@+id/placeholderMessage"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textAlignment="center"
-            android:textColor="?attr/colorOnSecondary"
-            android:textSize="@dimen/big_text_size"
-            android:textStyle="bold" />
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/placeholderMessage"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="@dimen/big_text_size"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/weatherLinearLayout"

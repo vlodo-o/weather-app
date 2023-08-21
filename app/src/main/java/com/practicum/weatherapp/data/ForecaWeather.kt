@@ -1,7 +1,15 @@
 package com.practicum.weatherapp.data
 
-data class CurrentWeather(val temperature: Float,
-                          val feelsLikeTemp: Float,
-                          val symbol: String)
+import com.google.gson.annotations.SerializedName
 
-class ForecastResponse(val current: CurrentWeather)
+data class CurrentWeather(
+    @SerializedName("temperature")
+    val temperature: Float,
+    @SerializedName("feelsLikeTemp")
+    val feelsLikeTemp: Float,
+    @SerializedName("symbol")
+    val symbol: String)
+
+class ForecastResponse(
+    @SerializedName("current")
+    val current: CurrentWeather)
